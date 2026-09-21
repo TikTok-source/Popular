@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Prototipo</title>
+  <link rel="icon" type="image/png" href="icon.png.png">
+<link rel="apple-touch-icon" href="icon.png.png">
+<meta name="apple-mobile-web-app-title" content="Prototipo">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:#000;overflow:hidden}
+.screen{position:absolute;inset:0;display:none;background:#000}
+.screen.active{display:flex;align-items:center;justify-content:center}
+.screen img{width:100%;height:100%;object-fit:contain;display:block}
+.continue{
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+  background:transparent;
+  border:0;
+  color:transparent;
+  opacity:0;
+  z-index:10;
+}
+.hotspot{
+  position:fixed;bottom:0;height:105px;z-index:20;
+  background:transparent;border:0;padding:0;
+}
+#hInicio{left:0;width:25%}
+#hTrans{left:25%;width:25%}
+#hSolic{left:50%;width:25%}
+#hMas{left:75%;width:25%}
+</style>
+</head>
+<body>
+
+<section id="login" class="screen active">
+  <img src="pantalla1.jpg" alt="Pantalla inicial del prototipo">
+</section>
+
+<section id="inicio" class="screen">
+  <img src="inicio.PNG" alt="Pantalla Inicio">
+</section>
+
+<section id="transacciones" class="screen">
+  <img src="transacciones.jpg" alt="Pantalla Transacciones">
+</section>
+
+<section id="mas" class="screen">
+  <img src="Mas.jpg" alt="Pantalla Más">
+</section>
+
+<button id="continueBtn" class="continue" type="button">CONTINUAR</button>
+
+<!-- Zonas invisibles sobre la navegación que YA está dentro de las imágenes. -->
+<button id="hInicio" class="hotspot" type="button" aria-label="Inicio"></button>
+<button id="hTrans" class="hotspot" type="button" aria-label="Transacciones"></button>
+<button id="hSolic" class="hotspot" type="button" aria-label="Solicitudes"></button>
+<button id="hMas" class="hotspot" type="button" aria-label="Más"></button>
+
+<script>
+const screens=document.querySelectorAll('.screen');
+const continueBtn=document.getElementById('continueBtn');
+const hotspots=document.querySelectorAll('.hotspot');
+
+function show(id){
+  screens.forEach(s=>s.classList.toggle('active',s.id===id));
+  continueBtn.style.display=(id==='login')?'block':'none';
+  hotspots.forEach(h=>h.style.display=(id==='login')?'none':'block');
+}
+
+continueBtn.addEventListener('click',()=>show('inicio'));
+
+document.getElementById('hInicio').addEventListener('click',()=>show('inicio'));
+document.getElementById('hTrans').addEventListener('click',()=>show('transacciones'));
+document.getElementById('hMas').addEventListener('click',()=>show('mas'));
+document.getElementById('hSolic').addEventListener('click',()=>{
+  alert('Solicitudes todavía no tiene una imagen asignada.');
+});
+</script>
+</body>
+</html>
