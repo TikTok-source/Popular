@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+
+<title>Prototipo</title>
+
+<link rel="icon" type="image/png" href="icon.png.jpg">
+<link rel="apple-touch-icon" href="icon.png.jpg">
+<meta name="apple-mobile-web-app-title" content="Prototipo">
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  background:#000;
+  overflow:hidden;
+}
+
+.screen{
+  position:absolute;
+  inset:0;
+  display:none;
+  background:#000;
+}
+
+.screen.active{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.screen img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+
+/* =========================
+   BOTÓN CONTINUAR
+   ========================= */
+
+.continue{
+  position:fixed;
+  left:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+  background:transparent;
+  border:0;
+  color:transparent;
+  opacity:0;
+  z-index:10;
+}
+
+/* =========================
+   NAVEGACIÓN INFERIOR
+   ========================= */
+
+.hotspot{
+  position:fixed;
+  bottom:0;
+  height:105px;
+  z-index:20;
+  background:transparent;
+  border:0;
+  padding:0;
+}
+
+#hInicio{
+  left:0;
+  width:25%;
+}
+
+#hTrans{
+  left:25%;
+  width:25%;
+}
+
+#hSolic{
+  left:50%;
+  width:25%;
+}
+
+#hMas{
+  left:75%;
+  width:25%;
+}
+
+/* =========================
+   NUEVAS ZONAS INVISIBLES
+   SOBRE LOS 2 PUNTOS MORADOS
+   ========================= */
+
+.extraHotspot{
+  position:fixed;
+  background:transparent;
+  border:0;
+  padding:0;
+  margin:0;
+  z-index:30;
+}
+
+/* Punto morado #1 */
+#hPunto1{
+  left:15%;
+  top:8%;
+  width:15%;
+  height:8%;
+}
+
+/* Punto morado #2 */
+#hPunto2{
+  left:34%;
+  top:12%;
+  width:15%;
+  height:8%;
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     PANTALLA INICIAL
+     ========================= -->
+
+<section id="login" class="screen active">
+  <img src="pantalla1.PNG" alt="Pantalla inicial del prototipo">
+</section>
+
+<!-- =========================
+     PANTALLA INICIO
+     ========================= -->
+
+<section id="inicio" class="screen">
+  <img src="inicio.PNG" alt="Pantalla Inicio">
+</section>
+
+<!-- =========================
+     PANTALLA TRANSACCIONES
+     ========================= -->
+
+<section id="transacciones" class="screen">
+  <img src="transacciones.jpg" alt="Pantalla Transacciones">
+</section>
+
+<!-- =========================
+     PANTALLA MÁS
+     ========================= -->
+
+<section id="mas" class="screen">
+  <img src="Mas.JPG" alt="Pantalla Más">
+</section>
+
+<!-- =========================
+     NUEVAS PANTALLAS
+     ========================= -->
+
+<section id="punto1" class="screen">
+  <img src="punto1.PNG" alt="Pantalla punto 1">
+</section>
+
+<section id="punto2" class="screen">
+  <img src="punto2.PNG" alt="Pantalla punto 2">
+</section>
+
+
+<!-- =========================
+     CONTINUAR
+     ========================= -->
+
+<button
+  id="continueBtn"
+  class="continue"
+  type="button">
+  CONTINUAR
+</button>
+
+
+<!-- =========================
+     ZONAS DE NAVEGACIÓN EXISTENTES
+     ========================= -->
+
+<button
+  id="hInicio"
+  class="hotspot"
+  type="button"
+  aria-label="Inicio">
+</button>
+
+<button
+  id="hTrans"
+  class="hotspot"
+  type="button"
+  aria-label="Transacciones">
+</button>
+
+<button
+  id="hSolic"
+  class="hotspot"
+  type="button"
+  aria-label="Solicitudes">
+</button>
+
+<button
+  id="hMas"
+  class="hotspot"
+  type="button"
+  aria-label="Más">
+</button>
+
+
+<!-- =========================
+     LAS 2 NUEVAS ZONAS
+     ========================= -->
+
+<button
+  id="hPunto1"
+  class="extraHotspot"
+  type="button"
+  aria-label="Punto 1">
+</button>
+
+<button
+  id="hPunto2"
+  class="extraHotspot"
+  type="button"
+  aria-label="Punto 2">
+</button>
+
+
+<script>
+
+/* =========================
+   ELEMENTOS
+   ========================= */
+
+const screens = document.querySelectorAll('.screen');
+
+const continueBtn =
+  document.getElementById('continueBtn');
+
+const hotspots =
+  document.querySelectorAll('.hotspot');
+
+const extraHotspots =
+  document.querySelectorAll('.extraHotspot');
+
+
+/* =========================
+   CAMBIAR DE PANTALLA
+   ========================= */
+
+function show(id){
+
+  screens.forEach(screen => {
+
+    screen.classList.toggle(
+      'active',
+      screen.id === id
+    );
+
+  });
+
+  /*
+   * CONTINUAR solamente aparece
+   * en la pantalla inicial.
+   */
+
+  continueBtn.style.display =
+    (id === 'login') ? 'block' : 'none';
+
+
+  /*
+   * Navegación inferior:
+   * aparece después de entrar
+   * a la aplicación.
+   */
+
+  hotspots.forEach(hotspot => {
+
+    hotspot.style.display =
+      (id === 'login') ? 'none' : 'block';
+
+  });
+
+
+  /*
+   * Los 2 nuevos puntos morados
+   * solamente están activos
+   * en la pantalla Inicio.
+   */
+
+  extraHotspots.forEach(hotspot => {
+
+    hotspot.style.display =
+      (id === 'inicio') ? 'block' : 'none';
+
+  });
+
+}
+
+
+/* =========================
+   CONTINUAR
+   ========================= */
+
+continueBtn.addEventListener(
+  'click',
+  () => show('inicio')
+);
+
+
+/* =========================
+   NAVEGACIÓN EXISTENTE
+   ========================= */
+
+document
+  .getElementById('hInicio')
+  .addEventListener(
+    'click',
+    () => show('inicio')
+  );
+
+
+document
+  .getElementById('hTrans')
+  .addEventListener(
+    'click',
+    () => show('transacciones')
+  );
+
+
+document
+  .getElementById('hMas')
+  .addEventListener(
+    'click',
+    () => show('mas')
+  );
+
+
+document
+  .getElementById('hSolic')
+  .addEventListener(
+    'click',
+    () => {
+
+      alert(
+        'Solicitudes todavía no tiene una imagen asignada.'
+      );
+
+    }
+  );
+
+
+/* =========================
+   NUEVO PUNTO MORADO #1
+   ========================= */
+
+document
+  .getElementById('hPunto1')
+  .addEventListener(
+    'click',
+    () => show('punto1')
+  );
+
+
+/* =========================
+   NUEVO PUNTO MORADO #2
+   ========================= */
+
+document
+  .getElementById('hPunto2')
+  .addEventListener(
+    'click',
+    () => show('punto2')
+  );
+
+
+/* =========================
+   ESTADO INICIAL
+   ========================= */
+
+show('login');
+
+</script>
+
+</body>
+</html>
