@@ -300,11 +300,9 @@ function show(id){
    */
 
   extraHotspots.forEach(hotspot => {
-
-    hotspot.style.display =
-      (id === 'inicio') ? 'block' : 'none';
-
-  });
+  hotspot.style.display =
+    (id === 'login') ? 'none' : 'block';
+});
 
 }
 
